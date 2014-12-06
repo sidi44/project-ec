@@ -21,21 +21,21 @@ public interface Population {
 	 * @return true if the Individual is successfully inserted, false 
 	 * otherwise.
 	 */
-	public boolean insert(Individual ind);
+	boolean insert(Individual ind);
 	
 	/**
 	 * Removes the Individual with the highest fitness value from the 
 	 * Population.
 	 * The Individual is discarded.
 	 */
-	public void removeMax();
+	void removeMax();
 	
 	/**
 	 * Removes the Individual with the lowest fitness value from the 
 	 * Population.
 	 * The Individual is discarded.
 	 */
-	public void removeMin();	
+	void removeMin();	
 	
 	/**
 	 * Removes the N Individuals with the highest fitness values from the 
@@ -44,7 +44,7 @@ public interface Population {
 	 * 
 	 * @param n - the number of Individuals to remove from the Population.
 	 */
-	public void removeMaxN(int n);
+	void removeMaxN(int n);
 	
 	/**
 	 * Removes the N Individuals with the lowest fitness values from the 
@@ -53,7 +53,7 @@ public interface Population {
 	 * 
 	 * @param n - the number of Individuals to remove from the Population.
 	 */
-	public void removeMinN(int n);
+	void removeMinN(int n);
 	
 	/**
 	 * Removes the Individual with nth the highest fitness value from the 
@@ -64,7 +64,7 @@ public interface Population {
 	 * 0 is the top-ranked individual, (size-1) is the bottom ranked 
 	 * Individual.
 	 */
-	public void removeNthMax(int n);
+	void removeNthMax(int n);
 	
 	/**
 	 * Removes the Individual with nth the lowest fitness value from the 
@@ -75,7 +75,7 @@ public interface Population {
 	 * 0 is the top-ranked individual, (size-1) is the bottom ranked 
 	 * Individual.
 	 */
-	public void removeMinNth(int n);
+	void removeMinNth(int n);
 	
 	/**
 	 * Obtains the Individual with the highest fitness value from the 
@@ -84,7 +84,7 @@ public interface Population {
 	 * 
 	 * @return the Individual with the highest fitness value.
 	 */
-	public Individual getMax();
+	Individual getMax();
 	
 	/**
 	 * Obtains the Individual with the lowest fitness value from the 
@@ -93,7 +93,7 @@ public interface Population {
 	 * 
 	 * @return the Individual with the lowest fitness value.
 	 */
-	public Individual getMin();	
+	Individual getMin();	
 	
 	/**
 	 * Obtains the Individual with the nth highest fitness value from the 
@@ -105,7 +105,7 @@ public interface Population {
 	 * Individual.
 	 * @return the nth ranked Individual in the Population (high-low).
 	 */
-	public Individual getNthMax(int n);
+	Individual getNthMax(int n);
 	
 	/**
 	 * Obtains the Individual with the nth lowest fitness value from the 
@@ -117,7 +117,7 @@ public interface Population {
 	 * Individual.
 	 * @return the nth ranked Individual in the Population (low-high).
 	 */
-	public Individual getNthMin(int n);
+	Individual getNthMin(int n);
 	
 	/**
 	 * Obtains the list of all Individuals of which the Population is 
@@ -126,6 +126,6 @@ public interface Population {
 	 * @return the list of all Individuals of which the Population is 
 	 * comprised.
 	 */
-	public List<Individual> getAll();
+	List<Individual> getAll();
 	
 }
