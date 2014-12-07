@@ -12,7 +12,7 @@ public interface EvolShape extends Shape {
 	 * @param vertexMin (PointXY)
 	 * @param vertexMax (PointXY)
 	 */
-	public void uniformMutation(PointXY centerMin, PointXY centerMax, PointXY vertexMin, PointXY vertexMax);
+	void uniformMutation(PointXY centerMin, PointXY centerMax, PointXY vertexMin, PointXY vertexMax);
 	
 	/**
 	 * Non-uniform Mutation.
@@ -24,42 +24,42 @@ public interface EvolShape extends Shape {
 	 * @param maxGen (int)
 	 * @param b (double)
 	 */
-	public void nonUniformMutation(PointXY centerMin, PointXY centerMax, PointXY vertexMin, PointXY vertexMax, int currentGen, int maxGen, double b);
+	void nonUniformMutation(PointXY centerMin, PointXY centerMax, PointXY vertexMin, PointXY vertexMax, int currentGen, int maxGen, double b);
 	
 	/**
 	 * Flat Crossover.
 	 * @param es (EvolShape)
 	 * @return offspring (EvolShape)
 	 */
-	public EvolShape flatCrossover(EvolShape es);
+	EvolShape flatCrossover(EvolShape es);
 	
 	/**
 	 * Simple Crossover.
 	 * @param es (EvolShape)
 	 * @return offspring (EvolShape[])
 	 */
-	public EvolShape[] simpleCrossover(EvolShape es);
+	EvolShape[] simpleCrossover(EvolShape es);
 	
 	/**
 	 * Whole Arithmetical Crossover.
 	 * @param es (EvolShape)
 	 * @return offspring (EvolShape[])
 	 */
-	public EvolShape[] wholeCrossover(EvolShape es);
+	EvolShape[] wholeCrossover(EvolShape es);
 	
 	/**
 	 * Local Arithmetical Crossover.
 	 * @param es (EvolShape)
 	 * @return offspring (EvolShape[])
 	 */
-	public EvolShape[] localCrossover(EvolShape es);
+	EvolShape[] localCrossover(EvolShape es);
 	
 	/**
 	 * Single Arithmetical Crossover.
 	 * @param es (EvolShape)
 	 * @return offspring (EvolShape[])
 	 */
-	public EvolShape[] singleCrossover(EvolShape es);
+	EvolShape[] singleCrossover(EvolShape es);
 	
 	/**
 	 * BLX-alpha Crossover.
@@ -67,6 +67,6 @@ public interface EvolShape extends Shape {
 	 * @param alpha (double)
 	 * @return offspring (EvolShape)
 	 */
-	public EvolShape blxAphaCrossover(EvolShape es, double alpha);
+	EvolShape blxAphaCrossover(EvolShape es, double alpha);
 
 }
