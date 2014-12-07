@@ -6,6 +6,9 @@ package shapes;
  * 
  * An EvolCircle can be mutated or used in cross-over to create EvolCircles
  * with different properties.
+ * 
+ * @author Martin Wong
+ * @version 2014-12-07
  */
 public class EvolCircle implements EvolShape {
 
