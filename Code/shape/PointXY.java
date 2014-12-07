@@ -1,9 +1,12 @@
-package Shapes;
+package shapes;
 
 import java.awt.geom.Point2D;
 
 /**
- * Represents the an (x, y) co-ordinate.
+ * Represents an (x, y) co-ordinate.
+ * 
+ * @author Martin Wong
+ * @version 2014-12-07
  */
 public class PointXY extends Point2D.Double {
 	
@@ -16,7 +19,9 @@ public class PointXY extends Point2D.Double {
 	}
 	
 	/**
-	 * String representation of (x, y) co-ordinate.
+	 * String representation of a PointXY co-ordinate.
+	 * 
+	 * @return PointXY in the form: "(x, y)" (string)
 	 */
 	@Override
 	public String toString(){
