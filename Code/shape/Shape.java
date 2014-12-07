@@ -1,19 +1,25 @@
-package Shapes;
+package shapes;
 
 /**
- * Requirements for each shape.
+ * Defines the properties which a shape must have.
+ * 
+ * @author Martin Wong
+ * @version 2014-12-07
  */
 public interface Shape {
-	
+
 	/**
-	 * Calculates the area of shape.
+	 * Calculates the area of a shape.
+	 * 
 	 * @return area of shape (double)
 	 */
-	double getArea();
-	
+	public double getArea();
+
 	/**
+	 * The center is the reference point for other vertices (if any).
+	 * 
 	 * @return center of shape (PointXY)
 	 */
-	PointXY getCenter();
+	public PointXY getCenter();
 
 }
