@@ -6,7 +6,7 @@ package Shapes;
 public interface Shape {
 	
 	/**
-	 * Calculates the area shape.
+	 * Calculates the area of shape.
 	 * @return area of shape (double)
 	 */
 	public double getArea();
