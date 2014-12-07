@@ -55,7 +55,7 @@ public interface EvolShape extends Shape {
 	EvolShape[] simpleCrossover(EvolShape es);
 	
 	/**
-	 * Generates offspring by Whole Arithmetical Crossover with another.
+	 * Generates offspring by Whole Arithmetical Crossover with another
 	 * EvolShape.
 	 * 
 	 * @param es, the second parent (EvolShape)
@@ -82,8 +82,7 @@ public interface EvolShape extends Shape {
 	EvolShape[] singleCrossover(EvolShape es);
 	
 	/**
-	 * Generates offspring by BLX-alpha Crossover with another
-	 * EvolShape.
+	 * Generates offspring by BLX-alpha Crossover with another EvolShape.
 	 * 
 	 * @param es, the second parent (EvolShape)
 	 * @param alpha, a constant (double)
