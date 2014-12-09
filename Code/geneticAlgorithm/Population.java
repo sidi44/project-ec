@@ -10,7 +10,7 @@ import java.util.List;
  * also 'peek' at the Population. 
  * 
  * @author Simon Dicken
- * @version 2014-12-06
+ * @version 2014-12-09
  */
 public interface Population {
 
@@ -27,6 +27,9 @@ public interface Population {
 	 * Removes the Individual with the highest fitness value from the 
 	 * Population.
 	 * The Individual is discarded.
+	 * Precondition: Population is non-empty.
+	 * 
+	 * @throws EmptyPopulationException - if the Population is empty.
 	 */
 	void removeMax();
 	
@@ -34,6 +37,9 @@ public interface Population {
 	 * Removes the Individual with the lowest fitness value from the 
 	 * Population.
 	 * The Individual is discarded.
+	 * Precondition: Population is non-empty.
+	 * 
+	 * @throws EmptyPopulationException - if the Population is empty.
 	 */
 	void removeMin();	
 	
@@ -41,8 +47,13 @@ public interface Population {
 	 * Removes the N Individuals with the highest fitness values from the 
 	 * Population.
 	 * The Individuals are discarded.
+	 * Precondition: Population is non-empty.
+	 * Precondition: n > 0.
+	 * Precondition: n <= size of population.
 	 * 
 	 * @param n - the number of Individuals to remove from the Population.
+	 * @throws EmptyPopulationException - if the Population is empty.
+	 * @throws IllegalArgumentException - if n < 0.
 	 */
 	void removeMaxN(int n);
 	
@@ -50,8 +61,13 @@ public interface Population {
 	 * Removes the N Individuals with the lowest fitness values from the 
 	 * Population.
 	 * The Individuals are discarded.
+	 * Precondition: Population is non-empty.
+	 * Precondition: n > 0.
+	 * Precondition: n <= size of population.
 	 * 
 	 * @param n - the number of Individuals to remove from the Population.
+	 * @throws EmptyPopulationException - if the Population is empty.
+	 * @throws IllegalArgumentException - if n < 0.
 	 */
 	void removeMinN(int n);
 	
@@ -59,10 +75,15 @@ public interface Population {
 	 * Removes the Individual with nth the highest fitness value from the 
 	 * Population.
 	 * The Individual is discarded.
+	 * Precondition: Population is non-empty.
+	 * Precondition: n >= 0.
+	 * Precondition: n < size of population.
 	 * 
 	 * @param n - the rank of the Individual to remove (high-low). 
 	 * 0 is the top-ranked individual, (size-1) is the bottom ranked 
 	 * Individual.
+	 * @throws EmptyPopulationException - if the Population is empty.
+	 * @throws IllegalArgumentException - if n < 0.
 	 */
 	void removeNthMax(int n);
 	
@@ -70,19 +91,26 @@ public interface Population {
 	 * Removes the Individual with nth the lowest fitness value from the 
 	 * Population.
 	 * The Individual is discarded.
+	 * Precondition: Population is non-empty.
+	 * Precondition: n >= 0.
+	 * Precondition: n < size of population.
 	 * 
 	 * @param n - the rank of the Individual to remove (low-high). 
 	 * 0 is the top-ranked individual, (size-1) is the bottom ranked 
 	 * Individual.
+	 * @throws EmptyPopulationException - if the Population is empty.
+	 * @throws IllegalArgumentException - if n < 0.
 	 */
-	void removeMinNth(int n);
+	void removeNthMin(int n);
 	
 	/**
 	 * Obtains the Individual with the highest fitness value from the 
 	 * Population.
 	 * The Individual is not removed from the Population.
+	 * Precondition: Population is non-empty.
 	 * 
 	 * @return the Individual with the highest fitness value.
+	 * @throws EmptyPopulationException - if the Population is empty.
 	 */
 	Individual getMax();
 	
@@ -90,8 +118,10 @@ public interface Population {
 	 * Obtains the Individual with the lowest fitness value from the 
 	 * Population.
 	 * The Individual is not removed from the Population.
+	 * Precondition: Population is non-empty.
 	 * 
 	 * @return the Individual with the lowest fitness value.
+	 * @throws EmptyPopulationException - if the Population is empty.
 	 */
 	Individual getMin();	
 	
@@ -99,11 +129,16 @@ public interface Population {
 	 * Obtains the Individual with the nth highest fitness value from the 
 	 * Population.
 	 * The Individual is not removed from the Population.
+	 * Precondition: Population is non-empty.
+	 * Precondition: n >= 0.
+	 * Precondition: n < size of population.
 	 * 
 	 * @param n - the rank of the Individual to remove (high-low). 
 	 * 0 is the top-ranked individual, (size-1) is the bottom ranked 
 	 * Individual.
 	 * @return the nth ranked Individual in the Population (high-low).
+	 * @throws EmptyPopulationException - if the Population is empty.
+	 * @throws IllegalArgumentException - if n < 0.
 	 */
 	Individual getNthMax(int n);
 	
@@ -111,11 +146,15 @@ public interface Population {
 	 * Obtains the Individual with the nth lowest fitness value from the 
 	 * Population.
 	 * The Individual is not removed from the Population.
+	 * Precondition: n >= 0.
+	 * Precondition: n < size of population.
 	 * 
 	 * @param n - the rank of the Individual to remove (low-high). 
 	 * 0 is the top-ranked individual, (size-1) is the bottom ranked 
 	 * Individual.
 	 * @return the nth ranked Individual in the Population (low-high).
+	 * @throws EmptyPopulationException - if the Population is empty.
+	 * @throws IllegalArgumentException - if n < 0.
 	 */
 	Individual getNthMin(int n);
 	
