@@ -1,4 +1,4 @@
-package shapes;
+package shape;
 
 /**
  * A shape which represents the appearance of an Individual in Evolutionary
@@ -8,7 +8,7 @@ package shapes;
  * different properties.
  * 
  * @author Martin Wong
- * @version 2014-12-14
+ * @version 2014-12-28
  */
 public interface EvoShape extends Shape {
 	
@@ -17,7 +17,7 @@ public interface EvoShape extends Shape {
 	 * 
 	 * @param ep (EvoParameters)
 	 */
-	void uniformMutation(EvoParameters ep);
+	void uniformMutation (EvoParameters ep);
 	
 	/**
 	 * Non-uniform Mutation, it alters the center or area of an EvoShape.
@@ -26,7 +26,7 @@ public interface EvoShape extends Shape {
 	 * @param currentGen (int)
 	 * @param maxGen (int)
 	 */
-	void nonUniformMutation(EvoParameters ep, int currentGen, int maxGen);
+	void nonUniformMutation (EvoParameters ep, int currentGen, int maxGen);
 	
 	/**
 	 * Generates offspring by Flat Crossover with another EvoShape.
@@ -34,7 +34,7 @@ public interface EvoShape extends Shape {
 	 * @param es, the second parent (EvoShape)
 	 * @return offspring: 1 (EvoShape)
 	 */
-	EvoShape flatCrossover(EvoShape es);
+	EvoShape flatCrossover (EvoShape es);
 	
 	/**
 	 * Generates offspring by Simple Crossover with another EvoShape.
@@ -42,7 +42,7 @@ public interface EvoShape extends Shape {
 	 * @param es, the second parent (EvoShape)
 	 * @return offspring: 2 (EvoShape[])
 	 */
-	EvoShape[] simpleCrossover(EvoShape es);
+	EvoShape[] simpleCrossover (EvoShape es);
 	
 	/**
 	 * Generates offspring by Whole Arithmetical Crossover with another
@@ -51,7 +51,7 @@ public interface EvoShape extends Shape {
 	 * @param es, the second parent (EvoShape)
 	 * @return offspring: 2 (EvoShape[])
 	 */
-	EvoShape[] wholeCrossover(EvoShape es);
+	EvoShape[] wholeCrossover (EvoShape es);
 	
 	/**
 	 * Generates offspring by Local Arithmetical Crossover with another
@@ -60,7 +60,7 @@ public interface EvoShape extends Shape {
 	 * @param es, the second parent (EvoShape)
 	 * @return offspring: 2 (EvoShape[])
 	 */
-	EvoShape[] localCrossover(EvoShape es);
+	EvoShape[] localCrossover (EvoShape es);
 	
 	/**
 	 * Generates offspring by Single Arithmetical Crossover with another
@@ -69,7 +69,7 @@ public interface EvoShape extends Shape {
 	 * @param es, the second parent (EvoShape)
 	 * @return offspring: 2 (EvoShape[])
 	 */
-	EvoShape[] singleCrossover(EvoShape es);
+	EvoShape[] singleCrossover (EvoShape es);
 	
 	/**
 	 * Generates offspring by BLX-alpha Crossover with another EvoShape.
@@ -78,6 +78,6 @@ public interface EvoShape extends Shape {
 	 * @param ep (EvoParemeters)
 	 * @return offspring: 1 (EvoShape)
 	 */
-	EvoShape blxAphaCrossover(EvoShape es, EvoParameters ep);
+	EvoShape blxAphaCrossover (EvoShape es, EvoParameters ep);
 
 }
