@@ -1,4 +1,4 @@
-package shapes;
+package shape;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -8,7 +8,7 @@ import java.util.Random;
  * number manipulation.
  * 
  * @author Martin Wong
- * @version 2014-12-14
+ * @version 2014-12-28
  */
 public class NumberUtils {
 	
@@ -19,7 +19,7 @@ public class NumberUtils {
 	 * @param num2 (double)
 	 * @return sorted numbers (double[])
 	 */
-	public static double[] sort(double num1, double num2){
+	public static double[] sortAscending (double num1, double num2) {
 		double[] sorted = new double[]{num1, num2};
 		Arrays.sort(sorted);
 		return sorted;
@@ -33,18 +33,9 @@ public class NumberUtils {
 	 * @throws IllegalArgumentException: if min > max
 	 * @return random int in range (int)
 	 */
-	public static int randomInt(int min, int max){
-		try {
-			if(min > max) {
-				throw new IllegalArgumentException("Min cannot be more than Max");
-			} else {
-				Random r = new Random();
-				return r.nextInt((max - min) + 1) + min; // + 1 for inclusive
-			}			
-		} catch (IllegalArgumentException e) {
-			System.err.println(e.getMessage());
-			return max;
-		}
+	public static int randomInt (int min, int max) throws IllegalArgumentException {
+		Random r = new Random();
+		return r.nextInt((max - min) + 1) + min; // + 1 for inclusive
 	}
 	
 	/**
@@ -56,18 +47,9 @@ public class NumberUtils {
 	 * @throws IllegalArgumentException: if min > max
 	 * @return random double in range (double)
 	 */
-	public static double randomDouble(double min, double max) {
-		try {
-			if(min > max) {
-				throw new IllegalArgumentException("Min cannot be more than Max");
-			} else {
-				Random r = new Random();
-				return r.nextDouble() * (max - min) + min;
-			}			
-		} catch (IllegalArgumentException e) {
-			System.err.println(e.getMessage());
-			return max;
-		}
+	public static double randomDouble (double min, double max) throws IllegalArgumentException {
+		Random r = new Random();
+		return r.nextDouble() * (max - min) + min;
 	}
 	
 }
