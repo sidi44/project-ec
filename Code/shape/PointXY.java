@@ -1,17 +1,17 @@
-package shapes;
+package shape;
 
 /**
  * Represents an (x, y) co-ordinate.
  * 
  * @author Martin Wong
- * @version 2014-12-14
+ * @version 2014-12-28
  */
-public class PointXY{
+public class PointXY {
 	
 	private double x;
 	private double y;
 	
-	public PointXY(double x, double y) {
+	public PointXY (double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -21,7 +21,7 @@ public class PointXY{
 	 * 
 	 * @return x (double)
 	 */
-	public double getX() {
+	public double getX () {
 		return this.x;
 	}
 	
@@ -30,7 +30,7 @@ public class PointXY{
 	 * 
 	 * @return y (double)
 	 */
-	public double getY() {
+	public double getY () {
 		return this.y;
 	}
 	
@@ -39,7 +39,7 @@ public class PointXY{
 	 * 
 	 * @param x (double)
 	 */
-	public void setX(double x) {
+	public void setX (double x) {
 		this.x = x;
 	}
 	
@@ -48,7 +48,7 @@ public class PointXY{
 	 * 
 	 * @param y (double)
 	 */
-	public void setY(double y) {
+	public void setY (double y) {
 		this.y = y;
 	}
 	
@@ -58,7 +58,7 @@ public class PointXY{
 	 * @param x (double)
 	 * @param y (double)
 	 */
-	public void setXY(double x, double y) {
+	public void setXY (double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -69,9 +69,11 @@ public class PointXY{
 	 * @param point (PointXY)
 	 * @return distance (double)
 	 */
-	public double getDistance(PointXY point) {
-		return Math.sqrt(Math.pow(point.getX() - this.x, 2)
-						 + Math.pow(point.getY() - this.y, 2));
+	public double getDistance (PointXY point) {
+		double a = point.getX() - this.x;
+		double b = point.getY() - this.y;
+		double result = (a * a) + (b * b);
+		return Math.sqrt(result);
 	}
 	
 	/**
@@ -80,7 +82,7 @@ public class PointXY{
 	 * @return PointXY in the form: "(x, y)" (string)
 	 */
 	@Override
-	public String toString(){
+	public String toString () {
 		return "(" + getX() + ", " + getY() + ")";
 	}
 
