@@ -1,18 +1,18 @@
-package shapes;
+package shape;
 
 /**
  * Represents Evolutionary Computation Parameters required for mutation and
  * cross-overs specifically for EvoCircles.
  * 
  * @author Martin Wong
- * @version 2014-12-14
+ * @version 2014-12-28
  */
 public class EvoParametersCircle extends EvoParameters {
 
 	private double radiusMin;
 	private double radiusMax;
 	
-	public EvoParametersCircle(double alpha, double b, double referenceXMin,
+	public EvoParametersCircle (double alpha, double b, double referenceXMin,
 							   double referenceXMax, double referenceYMin,
 							   double referenceYMax, double radiusMin,
 							   double radiusMax) {
@@ -26,7 +26,7 @@ public class EvoParametersCircle extends EvoParameters {
 	 * 
 	 * @return radiusMin (double)
 	 */
-	public double getRadiusMin() {
+	public double getRadiusMin () {
 		return this.radiusMin;
 	}
 	
@@ -35,7 +35,7 @@ public class EvoParametersCircle extends EvoParameters {
 	 * 
 	 * @return radiusMax (double)
 	 */
-	public double getRadiusMax() {
+	public double getRadiusMax () {
 		return this.radiusMax;
 	}
 	
@@ -44,7 +44,7 @@ public class EvoParametersCircle extends EvoParameters {
 	 * 
 	 * @param radiusMin (double)
 	 */
-	public void setRadiusMin(double radiusMin) {
+	public void setRadiusMin (double radiusMin) {
 		this.radiusMin = radiusMin;
 	}
 	
@@ -53,7 +53,7 @@ public class EvoParametersCircle extends EvoParameters {
 	 * 
 	 * @param radiusMax (double)
 	 */
-	public void setRadiusMax(double radiusMax) {
+	public void setRadiusMax (double radiusMax) {
 		this.radiusMax = radiusMax;
 	}
 	
@@ -63,8 +63,9 @@ public class EvoParametersCircle extends EvoParameters {
 	 * @return EvoParametersCircle in the form: "Property = value" (string)
 	 */
 	@Override
-	public String toString() {
-		return super.toString() + ", Radius Min = " + getRadiusMin()
+	public String toString () {
+		return super.toString()
+				+ ", Radius Min = " + getRadiusMin()
 				+ ", Radius Max = " + getRadiusMax();
 	}
 
