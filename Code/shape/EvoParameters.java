@@ -5,7 +5,7 @@ package shape;
  * cross-overs.
  * 
  * @author Martin Wong
- * @version 2014-12-28
+ * @version 2015-01-05
  */
 public class EvoParameters {
 	
@@ -16,7 +16,18 @@ public class EvoParameters {
 	private double referenceYMin;
 	private double referenceYMax;
 	
-	public EvoParameters (double alpha, double b, double referenceXMin,
+	/**
+	 * Creates an instance of EvoParameters, which contains parameters
+	 * required for mutation and cross-over.
+	 * 
+	 * @param alpha (double)
+	 * @param b (double)
+	 * @param referenceXMin (double)
+	 * @param referenceXMax (double)
+	 * @param referenceYMin (double)
+	 * @param referenceYMax (double)
+	 */
+	public EvoParameters(double alpha, double b, double referenceXMin,
 						 double referenceXMax, double referenceYMin,
 						 double referenceYMax) {
 		this.alpha = alpha;
@@ -32,7 +43,7 @@ public class EvoParameters {
 	 * 
 	 * @return alpha (double)
 	 */
-	public double getAlpha () {
+	public double getAlpha() {
 		return this.alpha;
 	}
 	
@@ -41,7 +52,7 @@ public class EvoParameters {
 	 * 
 	 * @return b (double)
 	 */
-	public double getB () {
+	public double getB() {
 		return this.b;
 	}
 	
@@ -50,7 +61,7 @@ public class EvoParameters {
 	 * 
 	 * @return referenceXMin (double)
 	 */
-	public double getReferenceXMin () {
+	public double getReferenceXMin() {
 		return this.referenceXMin;
 	}
 	
@@ -59,7 +70,7 @@ public class EvoParameters {
 	 * 
 	 * @return referenceXMax (double)
 	 */
-	public double getReferenceXMax () {
+	public double getReferenceXMax() {
 		return this.referenceXMax;
 	}
 	
@@ -68,7 +79,7 @@ public class EvoParameters {
 	 * 
 	 * @return referenceYMin (double)
 	 */
-	public double getReferenceYMin () {
+	public double getReferenceYMin() {
 		return this.referenceYMin;
 	}
 	
@@ -86,7 +97,7 @@ public class EvoParameters {
 	 * 
 	 * @param alpha (double)
 	 */
-	public void setAlpha (double alpha) {
+	public void setAlpha(double alpha) {
 		this.alpha = alpha;
 	}
 	
@@ -95,7 +106,7 @@ public class EvoParameters {
 	 * 
 	 * @param b (double)
 	 */
-	public void setB (double b) {
+	public void setB(double b) {
 		this.b = b;
 	}
 	
@@ -104,7 +115,7 @@ public class EvoParameters {
 	 * 
 	 * @param referenceXMin (double)
 	 */
-	public void setReferenceXMin (double referenceXMin) {
+	public void setReferenceXMin(double referenceXMin) {
 		this.referenceXMin = referenceXMin;
 	}
 	
@@ -113,7 +124,7 @@ public class EvoParameters {
 	 * 
 	 * @param referenceXMax (double)
 	 */
-	public void setReferenceXMax (double referenceXMax) {
+	public void setReferenceXMax(double referenceXMax) {
 		this.referenceXMax = referenceXMax;
 	}
 	
@@ -122,7 +133,7 @@ public class EvoParameters {
 	 * 
 	 * @param referenceYMin (double)
 	 */
-	public void setReferenceYMin (double referenceYMin) {
+	public void setReferenceYMin(double referenceYMin) {
 		this.referenceYMin = referenceYMin;
 	}
 	
@@ -131,7 +142,7 @@ public class EvoParameters {
 	 * 
 	 * @param referenceYMax (double)
 	 */
-	public void setReferenceYMax (double referenceYMax) {
+	public void setReferenceYMax(double referenceYMax) {
 		this.referenceYMax = referenceYMax;
 	}
 	
@@ -141,7 +152,7 @@ public class EvoParameters {
 	 * @return EvoParameters in the form: "Property = value" (string)
 	 */
 	@Override
-	public String toString () {
+	public String toString() {
 		return "Alpha = " + getAlpha()
 				+ ", b = " + getB()
 				+ ", Reference X Min = " + getReferenceXMin()
