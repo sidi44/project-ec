@@ -4,7 +4,7 @@ package shape;
  * Defines the properties which a shape must have.
  * 
  * @author Martin Wong
- * @version 2014-12-28
+ * @version 2015-01-05
  */
 public interface Shape {
 
@@ -13,13 +13,13 @@ public interface Shape {
 	 * 
 	 * @return reference point of shape (PointXY)
 	 */
-	public PointXY getReference ();
+	public PointXY getReference();
 	
 	/**
 	 * Calculates the area of a shape.
 	 * 
 	 * @return area of shape (double)
 	 */
-	public double getArea ();
+	public double getArea();
 
 }
