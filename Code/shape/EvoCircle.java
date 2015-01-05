@@ -8,19 +8,33 @@ package shape;
  * with different properties.
  * 
  * @author Martin Wong
- * @version 2014-12-28
+ * @version 2015-01-05
  */
 public class EvoCircle implements EvoShape {
 
 	private PointXY reference;
 	private double radius;
-
-	public EvoCircle (PointXY reference, double radius) {
+	
+	/**
+	 * Creates an instance of EvoCircle, using a reference point and radius.
+	 * 
+	 * @param reference (PointXY)
+	 * @param radius (double)
+	 */
+	public EvoCircle(PointXY reference, double radius) {
 		this.reference = reference;
 		this.radius = radius;
 	}
 	
-	public EvoCircle (double referenceX, double referenceY, double radius) {
+	/**
+	 * Creates an instance of EvoCircle,
+	 * using the reference point: (referenceX, referenceY) and radius.
+	 * 
+	 * @param referenceX (double)
+	 * @param referenceY (double)
+	 * @param radius (double)
+	 */
+	public EvoCircle(double referenceX, double referenceY, double radius) {
 		this.reference = new PointXY(referenceX, referenceY);
 		this.radius = radius;
 	}
@@ -31,7 +45,7 @@ public class EvoCircle implements EvoShape {
 	 * @return reference of EvoCircle (PointXY)
 	 */
 	@Override
-	public PointXY getReference () {
+	public PointXY getReference() {
 		return this.reference;
 	}
 	
@@ -40,7 +54,7 @@ public class EvoCircle implements EvoShape {
 	 * 
 	 * @return radius of EvoCircle (double)
 	 */
-	public double getRadius () {
+	public double getRadius() {
 		return this.radius;
 	}
 	
@@ -49,7 +63,7 @@ public class EvoCircle implements EvoShape {
 	 * 
 	 * @param radius (double)
 	 */
-	public void setRadius (double radius) {
+	public void setRadius(double radius) {
 		this.radius = radius;
 	}
 	
@@ -59,7 +73,7 @@ public class EvoCircle implements EvoShape {
 	 * @return area of EvoCircle (double)
 	 */
 	@Override
-	public double getArea () {
+	public double getArea() {
 		double radiusSq = Math.pow(radius, 2);
 		return Math.PI * radiusSq;
 	}
@@ -70,7 +84,7 @@ public class EvoCircle implements EvoShape {
 	 * @param ep (EvoParameters)
 	 */
 	@Override
-	public void uniformMutation (EvoParameters ep) {
+	public void uniformMutation(EvoParameters ep) {
 		
 		if (ep instanceof EvoParametersCircle) {
 		EvoParametersCircle epc = (EvoParametersCircle) ep;
@@ -102,7 +116,7 @@ public class EvoCircle implements EvoShape {
 	 * @param maxGen (int)
 	 */
 	@Override
-	public void nonUniformMutation (EvoParameters ep, int currentGen, int maxGen) {
+	public void nonUniformMutation(EvoParameters ep, int currentGen, int maxGen) {
 		
 		if (ep instanceof EvoParametersCircle) {
 			EvoParametersCircle epc = (EvoParametersCircle) ep;
@@ -154,7 +168,7 @@ public class EvoCircle implements EvoShape {
 	 * @return offspring: 1 (EvoShape)
 	 */
 	@Override
-	public EvoShape flatCrossover (EvoShape es) {
+	public EvoShape flatCrossover(EvoShape es) {
 		EvoShape offspring = this;
 		double sorted[] = new double[2];
 		
@@ -182,7 +196,7 @@ public class EvoCircle implements EvoShape {
 	 * @return offspring: 2 (EvoShape[])
 	 */
 	@Override
-	public EvoShape[] simpleCrossover (EvoShape es) {
+	public EvoShape[] simpleCrossover(EvoShape es) {
 		EvoShape[] offspring = new EvoShape[]{this, es};
 		
 		if (es instanceof EvoCircle) {
@@ -202,7 +216,7 @@ public class EvoCircle implements EvoShape {
 	 * @return offspring: 2 (EvoShape[])
 	 */
 	@Override
-	public EvoShape[] wholeCrossover (EvoShape es) {
+	public EvoShape[] wholeCrossover(EvoShape es) {
 		double alphaPart = NumberUtils.randomDouble(0, 1);
 		double[] alpha = new double[]{alphaPart, alphaPart, alphaPart}; // Same alpha
 		
@@ -218,7 +232,7 @@ public class EvoCircle implements EvoShape {
 	 * @return offspring: 2 (EvoShape[])
 	 */
 	@Override
-	public EvoShape[] localCrossover (EvoShape es) {
+	public EvoShape[] localCrossover(EvoShape es) {
 		double[] alpha = new double[]{NumberUtils.randomDouble(0, 1),
 									  NumberUtils.randomDouble(0, 1),
 									  NumberUtils.randomDouble(0, 1)}; // Different alpha
@@ -236,7 +250,7 @@ public class EvoCircle implements EvoShape {
 	 * @param es (EvoShape)
 	 * @return offspring (EvoShape[])
 	 */
-	public EvoShape[] wholeLocalCOContent (double[] alpha, EvoShape es) {
+	public EvoShape[] wholeLocalCOContent(double[] alpha, EvoShape es) {
 		EvoShape[] offspring = new EvoShape[]{this, es};
 		
 		if (es instanceof EvoCircle) {
@@ -266,7 +280,7 @@ public class EvoCircle implements EvoShape {
 	 * @param h2 (double)
 	 * @return result (double)
 	 */
-	public double wholeLocalCOHelper (double alpha, double h1, double h2) {
+	public double wholeLocalCOHelper(double alpha, double h1, double h2) {
 		double part1 = alpha * h1;
 		double part2 = (1 - alpha) * h2;
 		return part1 + part2;
@@ -281,7 +295,7 @@ public class EvoCircle implements EvoShape {
 	 * @return offspring: 2 (EvoShape[])
 	 */
 	@Override
-	public EvoShape[] singleCrossover (EvoShape es) {
+	public EvoShape[] singleCrossover(EvoShape es) {
 		EvoShape[] offspring = new EvoShape[]{this, es};
 		
 		if (es instanceof EvoCircle) {
@@ -309,7 +323,7 @@ public class EvoCircle implements EvoShape {
 	 * @return offspring: 1 (EvoShape)
 	 */
 	@Override
-	public EvoShape blxAphaCrossover (EvoShape es, EvoParameters ep) {
+	public EvoShape blxAphaCrossover(EvoShape es, EvoParameters ep) {
 		EvoShape offspring = this;
 		
 		if (es instanceof EvoCircle) {
@@ -348,7 +362,7 @@ public class EvoCircle implements EvoShape {
 	 * @return information about EvoCircle (string)
 	 */
 	@Override
-	public String toString () {
+	public String toString() {
 		return "Shape: Circle, "
 				+ "Reference: " + this.reference.toString()
 				+ ", Radius: " + this.radius
