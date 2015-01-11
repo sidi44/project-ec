@@ -17,7 +17,7 @@ import shape.EvoShape;
 public class Offspring<T extends EvoShape> {
 
 	// The list of EvoShapes that form the Offspring.
-	List<T> offspringList;
+	private List<T> offspringList;
 	
 	/**
 	 * Constructor for Offspring.
