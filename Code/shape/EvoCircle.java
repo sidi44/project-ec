@@ -1,5 +1,10 @@
 package shape;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import geneticAlgorithm.WorldLimits;
+
 /**
  * A circle which represents the appearance of an Individual in Evolutionary
  * Computation.
@@ -8,35 +13,41 @@ package shape;
  * with different properties.
  * 
  * @author Martin Wong
- * @version 2015-01-05
+ * @version 2015-01-15
  */
 public class EvoCircle implements EvoShape {
 
 	private PointXY reference;
 	private double radius;
+	private CircleLimits cLimits; // Limits for circle radius
 	
 	/**
-	 * Creates an instance of EvoCircle, using a reference point and radius.
+	 * Creates an instance of EvoCircle, using a 
+	 * reference point, radius and circle limits.
 	 * 
 	 * @param reference (PointXY)
 	 * @param radius (double)
+	 * @param cLimits (CircleLimits)
 	 */
-	public EvoCircle(PointXY reference, double radius) {
+	public EvoCircle(PointXY reference, double radius, CircleLimits cLimits) {
 		this.reference = reference;
 		this.radius = radius;
+		this.cLimits = cLimits;
 	}
 	
 	/**
-	 * Creates an instance of EvoCircle,
-	 * using the reference point: (referenceX, referenceY) and radius.
+	 * Creates an instance of EvoCircle, using the
+	 * reference point: (referenceX, referenceY), radius and circle limits.
 	 * 
 	 * @param referenceX (double)
 	 * @param referenceY (double)
 	 * @param radius (double)
+	 * @param cLimits (CircleLimits)
 	 */
-	public EvoCircle(double referenceX, double referenceY, double radius) {
+	public EvoCircle(double referenceX, double referenceY, double radius, CircleLimits cLimits) {
 		this.reference = new PointXY(referenceX, referenceY);
 		this.radius = radius;
+		this.cLimits = cLimits;
 	}
 	
 	/**
@@ -59,12 +70,39 @@ public class EvoCircle implements EvoShape {
 	}
 	
 	/**
+	 * The circleLimits defines the limit for radius of EvoCircle.
+	 * 
+	 * @return circle limits of EvoCircle (CircleLimits)
+	 */
+	public CircleLimits getCLimits() {
+		return this.cLimits;
+	}
+	
+	/**
+	 * Sets reference to the parameter value provided.
+	 * 
+	 * @param reference (PointXY)
+	 */
+	public void setReference(PointXY reference) {
+		this.reference = reference;
+	}
+	
+	/**
 	 * Sets radius to the parameter value provided.
 	 * 
 	 * @param radius (double)
 	 */
 	public void setRadius(double radius) {
 		this.radius = radius;
+	}
+	
+	/**
+	 * Sets cLimits to the parameter value provided.
+	 * 
+	 * @param cLimits (CircleLimits)
+	 */
+	public void setCLimits(CircleLimits cLimits) {
+		this.cLimits = cLimits;
 	}
 	
 	/**
@@ -79,165 +117,225 @@ public class EvoCircle implements EvoShape {
 	}
 	
 	/**
-	 * Uniform Mutation, it alters the reference or area of an EvoCircle.
+	 * Uniform Mutation, it alters the reference or radius of an EvoCircle.
 	 * 
-	 * @param ep (EvoParameters)
+	 * @param wLimits (WorldLimits)
 	 */
 	@Override
-	public void uniformMutation(EvoParameters ep) {
-		
-		if (ep instanceof EvoParametersCircle) {
-		EvoParametersCircle epc = (EvoParametersCircle) ep;
-		
-			if (NumberUtils.randomInt(0, 1) == 0) { // For reference
-				double randX = NumberUtils.randomDouble(epc.getReferenceXMin(),
-														epc.getReferenceXMax());
-				double randY = NumberUtils.randomDouble(epc.getReferenceYMin(),
-														epc.getReferenceYMax());
-				this.reference.setX(randX);
-				this.reference.setY(randY);
+	public void uniformMutation(WorldLimits wLimits) {
+		try {
+			if (NumberUtils.randomInt(0, 1) == 0) { // For reference		
+				double refMinX = wLimits.getMinX() + this.cLimits.getMinR();
+				double refMaxX = wLimits.getMaxX() - this.cLimits.getMinR();
+				double refMinY = wLimits.getMinY() + this.cLimits.getMinR();
+				double refMaxY = wLimits.getMaxY() - this.cLimits.getMinR();
+				
+				double newX = NumberUtils.randomDouble(refMinX, refMaxX);
+				double newY = NumberUtils.randomDouble(refMinY, refMaxY);
+				this.reference.setX(newX);
+				this.reference.setY(newY);
 				
 			} else { // For radius
-				double randRadius = NumberUtils.randomDouble(epc.getRadiusMin(),
-															 epc.getRadiusMax());
-				setRadius(randRadius);
+				double newRadius = NumberUtils.randomDouble(this.cLimits.getMinR(),
+															this.cLimits.getMaxR());
+				setRadius(newRadius);
 			}
+		} catch (IllegalArgumentException e) {
+			System.err.println(e.getMessage());
 		}
-		
 	}
 	
 	/**
-	 * Non-uniform Mutation, it alters the reference or area of an EvoShape.
-	 * In this case vertexMin.getX() represents the lower-bound for the radius,
-	 * while vertexMax.getX() represents the upper-bound for the radius.
+	 * Non-uniform Mutation, it alters the reference or radius of an EvoCircle.
 	 * 
-	 * @param ep (EvoParameters)
+	 * @param wLimits (WorldLimits)
+	 * @param b (double)
 	 * @param currentGen (int)
 	 * @param maxGen (int)
 	 */
 	@Override
-	public void nonUniformMutation(EvoParameters ep, int currentGen, int maxGen) {
-		
-		if (ep instanceof EvoParametersCircle) {
-			EvoParametersCircle epc = (EvoParametersCircle) ep;
+	public void nonUniformMutation(WorldLimits wLimits, double b, int currentGen, int maxGen) {	
+		try {
+			EvoCircle possibleEC = null;
+			double refMinX = wLimits.getMinX() + this.cLimits.getMinR();
+			double refMaxX = wLimits.getMaxX() - this.cLimits.getMinR();
+			double refMinY = wLimits.getMinY() + this.cLimits.getMinR();
+			double refMaxY = wLimits.getMaxY() - this.cLimits.getMinR();
 			
 			double genFactor = 1 - (currentGen / maxGen);
 			double temp1 = Math.pow(NumberUtils.randomDouble(0, 1), genFactor);
 			double temp2 = Math.pow(NumberUtils.randomDouble(0, 1), genFactor);
 			
-			temp1 = Math.pow(1 - temp1, epc.getB());
-			temp2 = Math.pow(1 - temp2, epc.getB());
+			temp1 = Math.pow(1 - temp1, b);
+			temp2 = Math.pow(1 - temp2, b);
 			
 			if (NumberUtils.randomInt(0, 1) == 0) { // For reference
 				if (NumberUtils.randomInt(0, 1) == 0) { // For x 
-					temp1 = - temp1 * (this.reference.getX() - epc.getReferenceXMin());
+					temp1 = - temp1 * (this.reference.getX() - refMinX);
 				} else {
-					temp1 = temp1 * (epc.getReferenceXMax() - this.reference.getX());
+					temp1 = temp1 * (refMaxX - this.reference.getX());
 				}
 				
 				if (NumberUtils.randomInt(0, 1) == 0) { // For y 
-					temp2 = - temp2 * (this.reference.getY() - epc.getReferenceYMin());
+					temp2 = - temp2 * (this.reference.getY() - refMinY);
 				} else {
-					temp2 = temp2 * (epc.getReferenceYMax() - this.reference.getY());
+					temp2 = temp2 * (refMaxY - this.reference.getY());
 				}
 				
 				double newX = this.reference.getX() + temp1;
 				double newY = this.reference.getY() + temp2;
 				
-				this.reference.setXY(newX, newY);
+				possibleEC = new EvoCircle(newX, newY, this.radius, this.cLimits);
+				
+				if(EvoWorldUtils.checkEvoCircle(possibleEC, wLimits)) {
+					this.reference.setXY(newX, newY);
+				}
 				
 			} else { // For radius
 				if (NumberUtils.randomInt(0, 1) == 0) {
-					temp1 = -temp1 * (this.radius - epc.getRadiusMin());
+					temp1 = -temp1 * (this.radius - this.cLimits.getMinR());
 				} else {
-					temp1 = temp1 * (epc.getRadiusMax() - this.radius);
+					temp1 = temp1 * (this.cLimits.getMinR() - this.radius);
 				}
 				
 				double newRadius = this.radius + temp1;
 				
-				setRadius(newRadius);
+				possibleEC = new EvoCircle(this.reference, newRadius, this.cLimits);
+				
+				if(EvoWorldUtils.checkEvoCircle(possibleEC, wLimits)) {
+					setRadius(newRadius);
+				}
 			}
+			
+		} catch (IllegalArgumentException e) {
+			System.err.println(e.getMessage());
 		}
 	}
 	
 	/**
 	 * Generates offspring by Flat Crossover with another EvoShape.
-	 * If the second parent is not an EvoCircle, then return first parent.
 	 * 
 	 * @param es, the second parent (EvoShape)
-	 * @return offspring: 1 (EvoShape)
+	 * @throws exception: if es is not an instance of EvoCircle (IllegalArgumentException)
+	 * @return offspring: 1 EvoCircle (List<EvoShape>)
 	 */
 	@Override
-	public EvoShape flatCrossover(EvoShape es) {
-		EvoShape offspring = this;
-		double sorted[] = new double[2];
-		
-		if (es instanceof EvoCircle) {
-			EvoCircle circle = (EvoCircle) es;
+	public List<EvoShape> flatCrossover(EvoShape es) throws IllegalArgumentException {
+		if(!(es instanceof EvoCircle)) {
+			throw new IllegalArgumentException("Es must be an EvoCircle!");
 			
-			sorted = NumberUtils.sortAscending(this.reference.getX(), circle.getReference().getX());
-			double newX = NumberUtils.randomDouble(sorted[0], sorted[1]);
+		} else {
+			List<EvoShape> offspring = new ArrayList<EvoShape>();
 			
-			sorted = NumberUtils.sortAscending(this.reference.getY(), circle.getReference().getY());
-			double newY = NumberUtils.randomDouble(sorted[0], sorted[1]);
+			try {
+				EvoCircle circle = (EvoCircle) es;
+				double sorted[] = new double[2];
+				
+				sorted = NumberUtils.sortAscending(this.reference.getX(), circle.getReference().getX());
+				double newX = NumberUtils.randomDouble(sorted[0], sorted[1]);
+				
+				sorted = NumberUtils.sortAscending(this.reference.getY(), circle.getReference().getY());
+				double newY = NumberUtils.randomDouble(sorted[0], sorted[1]);
+				
+				double newRadius = NumberUtils.randomDouble(this.radius, circle.getRadius());
+				
+				EvoShape osItem1 = new EvoCircle(newX, newY, newRadius, this.cLimits);
+				offspring.add(osItem1);
+				
+			} catch(IllegalArgumentException e){
+				System.err.println(e.getMessage());
+			}
 			
-			double newRadius = NumberUtils.randomDouble(this.radius, circle.getRadius());
-			
-			offspring = new EvoCircle(newX, newY, newRadius);
+			return offspring;
 		}
-		return offspring;
 	}
 	
 	/**
 	 * Generates offspring by Simple Crossover with another EvoShape.
-	 * If the second parent is not an EvoCircle, then return first parent.
 	 * 
 	 * @param es, the second parent (EvoShape)
-	 * @return offspring: 2 (EvoShape[])
+	 * @throws exception: if es is not an instance of EvoCircle (IllegalArgumentException)
+	 * @return offspring: 2 EvoCircles (List<EvoShape>)
 	 */
 	@Override
-	public EvoShape[] simpleCrossover(EvoShape es) {
-		EvoShape[] offspring = new EvoShape[]{this, es};
-		
-		if (es instanceof EvoCircle) {
+	public List<EvoShape> simpleCrossover(EvoShape es) throws IllegalArgumentException {
+		if(!(es instanceof EvoCircle)) {
+			throw new IllegalArgumentException("Es must be an EvoCircle!");
+			
+		} else {
+			List<EvoShape> offspring = new ArrayList<EvoShape>();
 			EvoCircle circle = (EvoCircle) es;
-			offspring[0] = new EvoCircle(this.reference, circle.getRadius());
-			offspring[1] = new EvoCircle(circle.getReference(), this.radius);
+
+			EvoShape osItem1 = new EvoCircle(this.reference, circle.getRadius(), this.cLimits);
+			EvoShape osItem2 = new EvoCircle(circle.getReference(), this.radius, this.cLimits);
+			
+			offspring.add(osItem1);
+			offspring.add(osItem2);
+			
+			return offspring;
 		}
-		return offspring;
 	}
 	
 	/**
 	 * Generates offspring by Whole Arithmetical Crossover with another
 	 * EvoShape.
-	 * If the second parent is not an EvoCircle, then return first parent.
 	 * 
 	 * @param es, the second parent (EvoShape)
-	 * @return offspring: 2 (EvoShape[])
+	 * @throws exception: if es is not an instance of EvoCircle (IllegalArgumentException)
+	 * @return offspring: 2 EvoCircles (List<EvoShape>)
 	 */
 	@Override
-	public EvoShape[] wholeCrossover(EvoShape es) {
-		double alphaPart = NumberUtils.randomDouble(0, 1);
-		double[] alpha = new double[]{alphaPart, alphaPart, alphaPart}; // Same alpha
-		
-		return wholeLocalCOContent(alpha, es);
+	public List<EvoShape> wholeCrossover(EvoShape es) throws IllegalArgumentException {
+		if(!(es instanceof EvoCircle)) {
+			throw new IllegalArgumentException("Es must be an EvoCircle!");
+			
+		} else {
+			List<EvoShape> offspring = new ArrayList<EvoShape>();
+			
+			try {
+				EvoCircle circle = (EvoCircle) es;
+				double alphaPart = NumberUtils.randomDouble(0, 1);
+				double[] alpha = new double[]{alphaPart, alphaPart, alphaPart}; // Same alpha
+				offspring = wholeLocalCOContent(alpha, circle);
+				
+			} catch (IllegalArgumentException e) {
+				System.err.println(e.getMessage());
+			}
+			
+			return offspring;
+		}
 	}
 	
 	/**
 	 * Generates offspring by Local Arithmetical Crossover with another
 	 * EvoShape.
-	 * If the second parent is not an EvoCircle, then return first parent.
 	 * 
 	 * @param es, the second parent (EvoShape)
-	 * @return offspring: 2 (EvoShape[])
+	 * @throws exception: if es is not an instance of EvoCircle (IllegalArgumentException)
+	 * @return offspring: 2 EvoCircles (List<EvoShape>)
 	 */
 	@Override
-	public EvoShape[] localCrossover(EvoShape es) {
-		double[] alpha = new double[]{NumberUtils.randomDouble(0, 1),
-									  NumberUtils.randomDouble(0, 1),
-									  NumberUtils.randomDouble(0, 1)}; // Different alpha
-		
-		return wholeLocalCOContent(alpha, es);
+	public List<EvoShape> localCrossover(EvoShape es) throws IllegalArgumentException {
+		if(!(es instanceof EvoCircle)) {
+			throw new IllegalArgumentException("Es must be an EvoCircle!");
+			
+		} else {
+			List<EvoShape> offspring = new ArrayList<EvoShape>();
+			
+			try {
+				EvoCircle circle = (EvoCircle) es;
+				double[] alpha = new double[]{NumberUtils.randomDouble(0, 1),
+						  NumberUtils.randomDouble(0, 1),
+						  NumberUtils.randomDouble(0, 1)}; // Different alpha
+
+				offspring = wholeLocalCOContent(alpha, circle);
+				
+			} catch(IllegalArgumentException e) {
+				System.err.println(e.getMessage());
+			}
+			
+			return offspring;
+		}
 	}
 	
 	/**
@@ -247,14 +345,11 @@ public class EvoCircle implements EvoShape {
 	 * Local Arithmetical Crossover uses different ones.
 	 * 
 	 * @param alpha (double)
-	 * @param es (EvoShape)
-	 * @return offspring (EvoShape[])
+	 * @param circle (EvoCircle)
+	 * @return offspring: 2 EvoCircles (List<EvoShape>)
 	 */
-	public EvoShape[] wholeLocalCOContent(double[] alpha, EvoShape es) {
-		EvoShape[] offspring = new EvoShape[]{this, es};
-		
-		if (es instanceof EvoCircle) {
-			EvoCircle circle = (EvoCircle) es;
+	public List<EvoShape> wholeLocalCOContent(double[] alpha, EvoCircle circle) {
+		List<EvoShape> offspring = new ArrayList<EvoShape>();
 			double newX = 0;
 			double newY = 0;
 			double newRadius = 0;
@@ -262,14 +357,17 @@ public class EvoCircle implements EvoShape {
 			newX = wholeLocalCOHelper(alpha[0], this.reference.getX(), circle.getReference().getX());
 			newY = wholeLocalCOHelper(alpha[1], this.reference.getY(), circle.getReference().getY());
 			newRadius = wholeLocalCOHelper(alpha[2], this.radius, circle.getRadius());
-			offspring[0] = new EvoCircle(newX, newY, newRadius);
+			EvoShape osItem1 = new EvoCircle(newX, newY, newRadius, this.cLimits);
 			
 			newX = wholeLocalCOHelper(alpha[0], circle.getReference().getX(), this.reference.getX());
 			newY = wholeLocalCOHelper(alpha[1], circle.getReference().getY(), this.reference.getX());
 			newRadius = wholeLocalCOHelper(alpha[2], circle.getRadius(), this.radius);
-			offspring[1] = new EvoCircle(newX, newY, newRadius);
-		}
-		return offspring;
+			EvoShape osItem2 = new EvoCircle(newX, newY, newRadius, this.cLimits);
+			
+			offspring.add(osItem1);
+			offspring.add(osItem2);
+			
+			return offspring;
 	}
 	
 	/**
@@ -289,48 +387,64 @@ public class EvoCircle implements EvoShape {
 	/**
 	 * Generates offspring by Single Arithmetical Crossover with another
 	 * EvoShape.
-	 * If the second parent is not an EvoCircle, then return first parent.
 	 * 
 	 * @param es, the second parent (EvoShape)
-	 * @return offspring: 2 (EvoShape[])
+	 * @throws exception: if es is not an instance of EvoCircle (IllegalArgumentException)
+	 * @return offspring: 2 EvoCircles (List<EvoShape>)
 	 */
 	@Override
-	public EvoShape[] singleCrossover(EvoShape es) {
-		EvoShape[] offspring = new EvoShape[]{this, es};
-		
-		if (es instanceof EvoCircle) {
-			EvoCircle circle = (EvoCircle) es;
-			if (NumberUtils.randomInt(0, 1) == 0) {
-				double newX = (this.reference.getX() + circle.getReference().getX()) / 2;
-				double newY = (this.reference.getY() + circle.getReference().getY()) / 2;
-				offspring[0] = new EvoCircle(newX, newY, this.radius);
-				offspring[1] = new EvoCircle(newX, newY, circle.radius);
-			} else {
-				double newRadius = (this.radius + circle.getRadius()) / 2;
-				offspring[0] = new EvoCircle(this.reference, newRadius);
-				offspring[1] = new EvoCircle(circle.getReference(), newRadius);
+	public List<EvoShape> singleCrossover(EvoShape es) throws IllegalArgumentException {
+		if(!(es instanceof EvoCircle)) {
+			throw new IllegalArgumentException("Es must be an EvoCircle!");
+			
+		} else {
+			List<EvoShape> offspring = new ArrayList<EvoShape>();
+			
+			try {
+				EvoCircle circle = (EvoCircle) es;
+				EvoShape osItem1 = null;
+				EvoShape osItem2 = null;
+				
+				if (NumberUtils.randomInt(0, 1) == 0) {
+					double newX = (this.reference.getX() + circle.getReference().getX()) / 2;
+					double newY = (this.reference.getY() + circle.getReference().getY()) / 2;
+					osItem1 = new EvoCircle(newX, newY, this.radius, this.cLimits);
+					osItem2 = new EvoCircle(newX, newY, circle.radius, this.cLimits);
+				} else {
+					double newRadius = (this.radius + circle.getRadius()) / 2;
+					osItem1 = new EvoCircle(this.reference, newRadius, this.cLimits);
+					osItem2 = new EvoCircle(circle.getReference(), newRadius, this.cLimits);
+				}
+				
+				offspring.add(osItem1);
+				offspring.add(osItem2);
+				
+			} catch (IllegalArgumentException e) {
+				System.err.println(e.getMessage());
 			}
+			
+			return offspring;
 		}
-		return offspring;
 	}
 	
 	/**
 	 * Generates offspring by BLX-alpha Crossover with another EvoShape.
-	 * If the second parent is not an EvoCircle, then return first parent.
 	 * 
 	 * @param es, the second parent (EvoShape)
-	 * @param ep (EvoParameters)
-	 * @return offspring: 1 (EvoShape)
+	 * @param alpha (double)
+	 * @throws exception: if es is not an instance of EvoCircle (IllegalArgumentException)
+	 * @return offspring: 1 EvoCircle (List<EvoShape>)
 	 */
 	@Override
-	public EvoShape blxAphaCrossover(EvoShape es, EvoParameters ep) {
-		EvoShape offspring = this;
-		
-		if (es instanceof EvoCircle) {
-			EvoCircle circle = (EvoCircle) es;
+	public List<EvoShape> blxAphaCrossover(EvoShape es, WorldLimits wLimits, double alpha) throws IllegalArgumentException {
+		if(!(es instanceof EvoCircle)) {
+			throw new IllegalArgumentException("Es must be an EvoCircle!");
 			
-			if (ep instanceof EvoParametersCircle) {
-				EvoParametersCircle epc = (EvoParametersCircle) ep;
+		} else {
+			List<EvoShape> offspring = new ArrayList<EvoShape>();
+			
+			try {
+				EvoCircle circle = (EvoCircle) es;
 				
 				double[] sorted = new double[2];
 				double factor = 0;
@@ -339,21 +453,29 @@ public class EvoCircle implements EvoShape {
 				double newRadius = 0;
 				
 				sorted = NumberUtils.sortAscending(this.reference.getX(), circle.getReference().getX());
-				factor = (sorted[1] - sorted[0]) * epc.getAlpha();
+				factor = (sorted[1] - sorted[0]) * alpha;
 				newX = NumberUtils.randomDouble(sorted[0] - factor, sorted[1] + factor);
 				
 				sorted = NumberUtils.sortAscending(this.reference.getY(), circle.getReference().getY());
-				factor = (sorted[1] - sorted[0]) * epc.getAlpha();
+				factor = (sorted[1] - sorted[0]) * alpha;
 				newY = NumberUtils.randomDouble(sorted[0] - factor, sorted[1] + factor);
 				
 				sorted = NumberUtils.sortAscending(this.radius, circle.getRadius());
-				factor = (sorted[1] - sorted[0]) * epc.getAlpha();
+				factor = (sorted[1] - sorted[0]) * alpha;
 				newRadius = NumberUtils.randomDouble(sorted[0] - factor, sorted[1] + factor);
 				
-				offspring = new EvoCircle(newX, newY, newRadius);
+				EvoCircle osItem1 = new EvoCircle(newX, newY, newRadius, this.cLimits);
+				
+				if(EvoWorldUtils.checkEvoCircle(osItem1, wLimits)) {
+					offspring.add(osItem1);
+				}
+				
+			} catch(IllegalArgumentException e) {
+				System.err.println(e.getMessage());
 			}
+			
+			return offspring;
 		}
-		return offspring;
 	}
 	
 	/**
