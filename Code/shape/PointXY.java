@@ -4,7 +4,7 @@ package shape;
  * Represents an (x, y) co-ordinate.
  * 
  * @author Martin Wong
- * @version 2015-01-05
+ * @version 2015-01-13
  */
 public class PointXY {
 	
@@ -20,6 +20,15 @@ public class PointXY {
 	public PointXY(double x, double y) {
 		this.x = x;
 		this.y = y;
+	}
+	
+	/**
+	 * Copy constructor which creates a deep copy of PointXY.
+	 * 
+	 * @param p (PointXY)
+	 */
+	public PointXY(PointXY p) {
+		this(p.getX(), p.getY());
 	}
 	
 	/**
