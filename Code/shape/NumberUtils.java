@@ -8,7 +8,7 @@ import java.util.Random;
  * number manipulation.
  * 
  * @author Martin Wong
- * @version 2015-01-05
+ * @version 2015-01-15
  */
 public class NumberUtils {
 	
@@ -30,7 +30,7 @@ public class NumberUtils {
 	 * 
 	 * @param min (int)
 	 * @param max (int)
-	 * @throws IllegalArgumentException: if min > max
+	 * @throws exception: if min > max (IllegalArgumentException)
 	 * @return random int in range (int)
 	 */
 	public static int randomInt(int min, int max) throws IllegalArgumentException {
@@ -44,11 +44,10 @@ public class NumberUtils {
 	
 	/**
 	 * Generates a random double within min (inclusive) and max (inclusive) provided.
-	 * If min > max, an IllegalArgumentException will be thrown and max will be returned.
 	 * 
 	 * @param min (double)
 	 * @param max (double)
-	 * @throws IllegalArgumentException: if min > max
+	 * @throws exception: if min > max (IllegalArgumentException)
 	 * @return random double in range (double)
 	 */
 	public static double randomDouble(double min, double max) throws IllegalArgumentException {
@@ -57,6 +56,25 @@ public class NumberUtils {
 		} else {
 			Random r = new Random();
 			return r.nextDouble() * (max - min) + min;
+		}
+	}
+	
+	
+	/**
+	 * Checks whether a double is within min (inclusive) and max (inclusive) provided.
+	 * If min > max, an IllegalArgumentException will be thrown.
+	 * 
+	 * @param val (double)
+	 * @param min (double)
+	 * @param max (double)
+	 * @throws exception: if min > max (IllegalArgumentException)
+	 * @return inLimits (boolean)
+	 */
+	public static boolean withinLimits(double val, double min, double max) {
+		if (min > max) {
+			throw new IllegalArgumentException("Min cannot be more than Max!");
+		} else {
+			return (val >= min) && (val <= max);
 		}
 	}
 	
