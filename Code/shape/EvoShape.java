@@ -1,5 +1,9 @@
 package shape;
 
+import java.util.List;
+
+import geneticAlgorithm.WorldLimits;
+
 /**
  * A shape which represents the appearance of an Individual in Evolutionary
  * Computation.
@@ -8,76 +12,76 @@ package shape;
  * different properties.
  * 
  * @author Martin Wong
- * @version 2015-01-05
+ * @version 2015-01-15
  */
 public interface EvoShape extends Shape {
 	
 	/**
 	 * Uniform Mutation, it alters the center or area of an EvoShape.
 	 * 
-	 * @param ep (EvoParameters)
+	 * @param wLimits (WorldLimits)
 	 */
-	void uniformMutation(EvoParameters ep);
+	void uniformMutation(WorldLimits wLimits);
 	
 	/**
 	 * Non-uniform Mutation, it alters the center or area of an EvoShape.
 	 * 
-	 * @param ep (EvoParameters)
+	 * @param wLimits (WorldLimits)
 	 * @param currentGen (int)
 	 * @param maxGen (int)
 	 */
-	void nonUniformMutation(EvoParameters ep, int currentGen, int maxGen);
+	void nonUniformMutation(WorldLimits wLimits, double b, int currentGen, int maxGen);
 	
 	/**
 	 * Generates offspring by Flat Crossover with another EvoShape.
 	 * 
 	 * @param es, the second parent (EvoShape)
-	 * @return offspring: 1 (EvoShape)
+	 * @return offspring: 1 EvoShape (List<EvoShape>)
 	 */
-	EvoShape flatCrossover(EvoShape es);
+	List<EvoShape> flatCrossover(EvoShape es);
 	
 	/**
 	 * Generates offspring by Simple Crossover with another EvoShape.
 	 * 
 	 * @param es, the second parent (EvoShape)
-	 * @return offspring: 2 (EvoShape[])
+	 * @return offspring: 2 EvoShapes (List<EvoShape>)
 	 */
-	EvoShape[] simpleCrossover(EvoShape es);
+	List<EvoShape> simpleCrossover(EvoShape es);
 	
 	/**
 	 * Generates offspring by Whole Arithmetical Crossover with another
 	 * EvoShape.
 	 * 
 	 * @param es, the second parent (EvoShape)
-	 * @return offspring: 2 (EvoShape[])
+	 * @return offspring: 2 EvoShapes (List<EvoShape>)
 	 */
-	EvoShape[] wholeCrossover(EvoShape es);
+	List<EvoShape> wholeCrossover(EvoShape es);
 	
 	/**
 	 * Generates offspring by Local Arithmetical Crossover with another
 	 * EvoShape.
 	 * 
 	 * @param es, the second parent (EvoShape)
-	 * @return offspring: 2 (EvoShape[])
+	 * @return offspring: 2 EvoShapes (List<EvoShape>)
 	 */
-	EvoShape[] localCrossover(EvoShape es);
+	List<EvoShape> localCrossover(EvoShape es);
 	
 	/**
 	 * Generates offspring by Single Arithmetical Crossover with another
 	 * EvoShape.
 	 * 
 	 * @param es, the second parent (EvoShape)
-	 * @return offspring: 2 (EvoShape[])
+	 * @return offspring: 2 EvoShapes (List<EvoShape>)
 	 */
-	EvoShape[] singleCrossover(EvoShape es);
+	List<EvoShape> singleCrossover(EvoShape es);
 	
 	/**
 	 * Generates offspring by BLX-alpha Crossover with another EvoShape.
 	 * 
 	 * @param es, the second parent (EvoShape)
 	 * @param ep (EvoParemeters)
-	 * @return offspring: 1 (EvoShape)
+	 * @return offspring: 1 EvoShape (List<EvoShape>)
 	 */
-	EvoShape blxAphaCrossover(EvoShape es, EvoParameters ep);
+	List<EvoShape> blxAphaCrossover(EvoShape es, WorldLimits wLimits, double alpha);
 
 }
