@@ -13,7 +13,7 @@ import geneticAlgorithm.WorldLimits;
  * with different properties.
  * 
  * @author Martin Wong
- * @version 2015-01-15
+ * @version 2015-01-20
  */
 public class EvoCircle implements EvoShape {
 
@@ -123,25 +123,21 @@ public class EvoCircle implements EvoShape {
 	 */
 	@Override
 	public void uniformMutation(WorldLimits wLimits) {
-		try {
-			if (NumberUtils.randomInt(0, 1) == 0) { // For reference		
-				double refMinX = wLimits.getMinX() + this.cLimits.getMinR();
-				double refMaxX = wLimits.getMaxX() - this.cLimits.getMinR();
-				double refMinY = wLimits.getMinY() + this.cLimits.getMinR();
-				double refMaxY = wLimits.getMaxY() - this.cLimits.getMinR();
-				
-				double newX = NumberUtils.randomDouble(refMinX, refMaxX);
-				double newY = NumberUtils.randomDouble(refMinY, refMaxY);
-				this.reference.setX(newX);
-				this.reference.setY(newY);
-				
-			} else { // For radius
-				double newRadius = NumberUtils.randomDouble(this.cLimits.getMinR(),
-															this.cLimits.getMaxR());
-				setRadius(newRadius);
-			}
-		} catch (IllegalArgumentException e) {
-			System.err.println(e.getMessage());
+		if (NumberUtils.randomInt(0, 1) == 0) { // For reference		
+			double refMinX = wLimits.getMinX() + this.cLimits.getMinR();
+			double refMaxX = wLimits.getMaxX() - this.cLimits.getMinR();
+			double refMinY = wLimits.getMinY() + this.cLimits.getMinR();
+			double refMaxY = wLimits.getMaxY() - this.cLimits.getMinR();
+			
+			double newX = NumberUtils.randomDouble(refMinX, refMaxX);
+			double newY = NumberUtils.randomDouble(refMinY, refMaxY);
+			this.reference.setX(newX);
+			this.reference.setY(newY);
+			
+		} else { // For radius
+			double newRadius = NumberUtils.randomDouble(this.cLimits.getMinR(),
+														this.cLimits.getMaxR());
+			setRadius(newRadius);
 		}
 	}
 	
@@ -155,60 +151,55 @@ public class EvoCircle implements EvoShape {
 	 */
 	@Override
 	public void nonUniformMutation(WorldLimits wLimits, double b, int currentGen, int maxGen) {	
-		try {
-			EvoCircle possibleEC = null;
-			double refMinX = wLimits.getMinX() + this.cLimits.getMinR();
-			double refMaxX = wLimits.getMaxX() - this.cLimits.getMinR();
-			double refMinY = wLimits.getMinY() + this.cLimits.getMinR();
-			double refMaxY = wLimits.getMaxY() - this.cLimits.getMinR();
-			
-			double genFactor = 1 - (currentGen / maxGen);
-			double temp1 = Math.pow(NumberUtils.randomDouble(0, 1), genFactor);
-			double temp2 = Math.pow(NumberUtils.randomDouble(0, 1), genFactor);
-			
-			temp1 = Math.pow(1 - temp1, b);
-			temp2 = Math.pow(1 - temp2, b);
-			
-			if (NumberUtils.randomInt(0, 1) == 0) { // For reference
-				if (NumberUtils.randomInt(0, 1) == 0) { // For x 
-					temp1 = - temp1 * (this.reference.getX() - refMinX);
-				} else {
-					temp1 = temp1 * (refMaxX - this.reference.getX());
-				}
-				
-				if (NumberUtils.randomInt(0, 1) == 0) { // For y 
-					temp2 = - temp2 * (this.reference.getY() - refMinY);
-				} else {
-					temp2 = temp2 * (refMaxY - this.reference.getY());
-				}
-				
-				double newX = this.reference.getX() + temp1;
-				double newY = this.reference.getY() + temp2;
-				
-				possibleEC = new EvoCircle(newX, newY, this.radius, this.cLimits);
-				
-				if(EvoWorldUtils.checkEvoCircle(possibleEC, wLimits)) {
-					this.reference.setXY(newX, newY);
-				}
-				
-			} else { // For radius
-				if (NumberUtils.randomInt(0, 1) == 0) {
-					temp1 = -temp1 * (this.radius - this.cLimits.getMinR());
-				} else {
-					temp1 = temp1 * (this.cLimits.getMinR() - this.radius);
-				}
-				
-				double newRadius = this.radius + temp1;
-				
-				possibleEC = new EvoCircle(this.reference, newRadius, this.cLimits);
-				
-				if(EvoWorldUtils.checkEvoCircle(possibleEC, wLimits)) {
-					setRadius(newRadius);
-				}
+		EvoCircle possibleEC = null;
+		double refMinX = wLimits.getMinX() + this.cLimits.getMinR();
+		double refMaxX = wLimits.getMaxX() - this.cLimits.getMinR();
+		double refMinY = wLimits.getMinY() + this.cLimits.getMinR();
+		double refMaxY = wLimits.getMaxY() - this.cLimits.getMinR();
+		
+		double genFactor = 1 - (currentGen / maxGen);
+		double temp1 = Math.pow(NumberUtils.randomDouble(0, 1), genFactor);
+		double temp2 = Math.pow(NumberUtils.randomDouble(0, 1), genFactor);
+		
+		temp1 = Math.pow(1 - temp1, b);
+		temp2 = Math.pow(1 - temp2, b);
+		
+		if (NumberUtils.randomInt(0, 1) == 0) { // For reference
+			if (NumberUtils.randomInt(0, 1) == 0) { // For x 
+				temp1 = - temp1 * (this.reference.getX() - refMinX);
+			} else {
+				temp1 = temp1 * (refMaxX - this.reference.getX());
 			}
 			
-		} catch (IllegalArgumentException e) {
-			System.err.println(e.getMessage());
+			if (NumberUtils.randomInt(0, 1) == 0) { // For y 
+				temp2 = - temp2 * (this.reference.getY() - refMinY);
+			} else {
+				temp2 = temp2 * (refMaxY - this.reference.getY());
+			}
+			
+			double newX = this.reference.getX() + temp1;
+			double newY = this.reference.getY() + temp2;
+			
+			possibleEC = new EvoCircle(newX, newY, this.radius, this.cLimits);
+			
+			if(possibleEC.checkEvoCircle(wLimits)) {
+				this.reference.setXY(newX, newY);
+			}
+			
+		} else { // For radius
+			if (NumberUtils.randomInt(0, 1) == 0) {
+				temp1 = -temp1 * (this.radius - this.cLimits.getMinR());
+			} else {
+				temp1 = temp1 * (this.cLimits.getMinR() - this.radius);
+			}
+			
+			double newRadius = this.radius + temp1;
+			
+			possibleEC = new EvoCircle(this.reference, newRadius, this.cLimits);
+			
+			if(possibleEC.checkEvoCircle(wLimits)) {
+				setRadius(newRadius);
+			}
 		}
 	}
 	
@@ -226,25 +217,19 @@ public class EvoCircle implements EvoShape {
 			
 		} else {
 			List<EvoShape> offspring = new ArrayList<EvoShape>();
+			EvoCircle circle = (EvoCircle) es;
+			double sorted[] = new double[2];
 			
-			try {
-				EvoCircle circle = (EvoCircle) es;
-				double sorted[] = new double[2];
-				
-				sorted = NumberUtils.sortAscending(this.reference.getX(), circle.getReference().getX());
-				double newX = NumberUtils.randomDouble(sorted[0], sorted[1]);
-				
-				sorted = NumberUtils.sortAscending(this.reference.getY(), circle.getReference().getY());
-				double newY = NumberUtils.randomDouble(sorted[0], sorted[1]);
-				
-				double newRadius = NumberUtils.randomDouble(this.radius, circle.getRadius());
-				
-				EvoShape osItem1 = new EvoCircle(newX, newY, newRadius, this.cLimits);
-				offspring.add(osItem1);
-				
-			} catch(IllegalArgumentException e){
-				System.err.println(e.getMessage());
-			}
+			sorted = NumberUtils.sortAscending(this.reference.getX(), circle.getReference().getX());
+			double newX = NumberUtils.randomDouble(sorted[0], sorted[1]);
+			
+			sorted = NumberUtils.sortAscending(this.reference.getY(), circle.getReference().getY());
+			double newY = NumberUtils.randomDouble(sorted[0], sorted[1]);
+			
+			double newRadius = NumberUtils.randomDouble(this.radius, circle.getRadius());
+			
+			EvoShape osItem1 = new EvoCircle(newX, newY, newRadius, this.cLimits);
+			offspring.add(osItem1);
 			
 			return offspring;
 		}
@@ -291,16 +276,12 @@ public class EvoCircle implements EvoShape {
 			
 		} else {
 			List<EvoShape> offspring = new ArrayList<EvoShape>();
+			EvoCircle circle = (EvoCircle) es;
 			
-			try {
-				EvoCircle circle = (EvoCircle) es;
-				double alphaPart = NumberUtils.randomDouble(0, 1);
-				double[] alpha = new double[]{alphaPart, alphaPart, alphaPart}; // Same alpha
-				offspring = wholeLocalCOContent(alpha, circle);
-				
-			} catch (IllegalArgumentException e) {
-				System.err.println(e.getMessage());
-			}
+			double alphaPart = NumberUtils.randomDouble(0, 1);
+			double[] alpha = new double[]{alphaPart, alphaPart, alphaPart}; // Same alpha
+			
+			offspring = wholeLocalCOContent(alpha, circle);
 			
 			return offspring;
 		}
@@ -399,30 +380,24 @@ public class EvoCircle implements EvoShape {
 			
 		} else {
 			List<EvoShape> offspring = new ArrayList<EvoShape>();
+			EvoCircle circle = (EvoCircle) es;
+			EvoShape osItem1 = null;
+			EvoShape osItem2 = null;
 			
-			try {
-				EvoCircle circle = (EvoCircle) es;
-				EvoShape osItem1 = null;
-				EvoShape osItem2 = null;
-				
-				if (NumberUtils.randomInt(0, 1) == 0) {
-					double newX = (this.reference.getX() + circle.getReference().getX()) / 2;
-					double newY = (this.reference.getY() + circle.getReference().getY()) / 2;
-					osItem1 = new EvoCircle(newX, newY, this.radius, this.cLimits);
-					osItem2 = new EvoCircle(newX, newY, circle.radius, this.cLimits);
-				} else {
-					double newRadius = (this.radius + circle.getRadius()) / 2;
-					osItem1 = new EvoCircle(this.reference, newRadius, this.cLimits);
-					osItem2 = new EvoCircle(circle.getReference(), newRadius, this.cLimits);
-				}
-				
-				offspring.add(osItem1);
-				offspring.add(osItem2);
-				
-			} catch (IllegalArgumentException e) {
-				System.err.println(e.getMessage());
+			if (NumberUtils.randomInt(0, 1) == 0) {
+				double newX = (this.reference.getX() + circle.getReference().getX()) / 2;
+				double newY = (this.reference.getY() + circle.getReference().getY()) / 2;
+				osItem1 = new EvoCircle(newX, newY, this.radius, this.cLimits);
+				osItem2 = new EvoCircle(newX, newY, circle.radius, this.cLimits);
+			} else {
+				double newRadius = (this.radius + circle.getRadius()) / 2;
+				osItem1 = new EvoCircle(this.reference, newRadius, this.cLimits);
+				osItem2 = new EvoCircle(circle.getReference(), newRadius, this.cLimits);
 			}
 			
+			offspring.add(osItem1);
+			offspring.add(osItem2);
+				
 			return offspring;
 		}
 	}
@@ -442,40 +417,83 @@ public class EvoCircle implements EvoShape {
 			
 		} else {
 			List<EvoShape> offspring = new ArrayList<EvoShape>();
+			EvoCircle circle = (EvoCircle) es;
+
+			double[] sorted = new double[2];
+			double factor = 0;
+			double newX = 0;
+			double newY = 0;
+			double newRadius = 0;
 			
-			try {
-				EvoCircle circle = (EvoCircle) es;
-				
-				double[] sorted = new double[2];
-				double factor = 0;
-				double newX = 0;
-				double newY = 0;
-				double newRadius = 0;
-				
-				sorted = NumberUtils.sortAscending(this.reference.getX(), circle.getReference().getX());
-				factor = (sorted[1] - sorted[0]) * alpha;
-				newX = NumberUtils.randomDouble(sorted[0] - factor, sorted[1] + factor);
-				
-				sorted = NumberUtils.sortAscending(this.reference.getY(), circle.getReference().getY());
-				factor = (sorted[1] - sorted[0]) * alpha;
-				newY = NumberUtils.randomDouble(sorted[0] - factor, sorted[1] + factor);
-				
-				sorted = NumberUtils.sortAscending(this.radius, circle.getRadius());
-				factor = (sorted[1] - sorted[0]) * alpha;
-				newRadius = NumberUtils.randomDouble(sorted[0] - factor, sorted[1] + factor);
-				
-				EvoCircle osItem1 = new EvoCircle(newX, newY, newRadius, this.cLimits);
-				
-				if(EvoWorldUtils.checkEvoCircle(osItem1, wLimits)) {
-					offspring.add(osItem1);
-				}
-				
-			} catch(IllegalArgumentException e) {
-				System.err.println(e.getMessage());
+			sorted = NumberUtils.sortAscending(this.reference.getX(), circle.getReference().getX());
+			factor = (sorted[1] - sorted[0]) * alpha;
+			newX = NumberUtils.randomDouble(sorted[0] - factor, sorted[1] + factor);
+			
+			sorted = NumberUtils.sortAscending(this.reference.getY(), circle.getReference().getY());
+			factor = (sorted[1] - sorted[0]) * alpha;
+			newY = NumberUtils.randomDouble(sorted[0] - factor, sorted[1] + factor);
+			
+			sorted = NumberUtils.sortAscending(this.radius, circle.getRadius());
+			factor = (sorted[1] - sorted[0]) * alpha;
+			newRadius = NumberUtils.randomDouble(sorted[0] - factor, sorted[1] + factor);
+			
+			EvoCircle osItem1 = new EvoCircle(newX, newY, newRadius, this.cLimits);
+			
+			if(osItem1.checkEvoCircle(wLimits)) {
+				offspring.add(osItem1);
 			}
 			
 			return offspring;
 		}
+	}
+	
+	/**
+	 * Checks whether an EvoCircle is within the evolutionary world.
+	 * 
+	 * @param wLimits: the co-ordinates of the evolutionary world (WorldLimits)
+	 * @return boolean: whether EvoCircle is within the evolutionary world (boolean)
+	 */
+	public boolean checkEvoCircle(WorldLimits wLimits){
+		
+		double lowX = this.reference.getX() - this.radius; // The leftmost part of the circle
+		double highX = this.reference.getX() + this.radius; // The rightmost part of the circle
+		double lowY = this.reference.getY() - this.radius; // The lowest part of the circle
+		double highY = this.reference.getY() + this.radius; // The highest part of the circle
+		
+		boolean lowXBool = NumberUtils.withinLimits(lowX, wLimits.getMinX(), wLimits.getMinX()); // Is lowX within limits
+		boolean highXBool = NumberUtils.withinLimits(highX, wLimits.getMinX(), wLimits.getMinX()); // Is highX within limits
+		
+		boolean lowYBool = NumberUtils.withinLimits(lowY, wLimits.getMinY(), wLimits.getMaxY()); // Is lowY within limits
+		boolean highYBool = NumberUtils.withinLimits(highY, wLimits.getMinY(), wLimits.getMaxY()); // Is highY within limits
+		
+		boolean rBool = NumberUtils.withinLimits(this.radius, this.cLimits.getMinR(), this.cLimits.getMaxR()); // Is radius within limits
+		
+		return lowXBool && highXBool && lowYBool && highYBool && rBool;
+	}
+	
+	/**
+	 * Checks whether a list of EvoCircles are within the evolutionary world.
+	 * 
+	 * @param listES (List<EvoShape>)
+	 * @param wLimits: the co-ordinates of the evolutionary world (WorldLimits)
+	 * @throws exception: if listES contains at least one EvoShape which is not an EvoCircle
+	 * @return boolean: whether EvoCricle is within the evolutionary world (boolean)
+	 */
+	public static boolean checkListEvoCircle(List<EvoShape> listES, WorldLimits wLimits) throws IllegalArgumentException {
+		boolean result = true;
+		
+		for(EvoShape es : listES) {
+			if(!(es instanceof EvoCircle)) {
+				throw new IllegalArgumentException("Es must be an EvoCircle!");
+				
+			} else {
+				EvoCircle circle = (EvoCircle) es;
+				result = circle.checkEvoCircle(wLimits);
+				if(!result) break;
+			}
+		}
+		
+		return result;
 	}
 	
 	/**
