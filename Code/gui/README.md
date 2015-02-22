@@ -1,3 +1,3 @@
 gui
 ==========
-Code for the Android GUI.
+Code for the GUI.

@@ -1,6 +1,5 @@
-package geneticAlgorithm;
+package geneticAlgorithm.core;
 
-import java.util.List;
 
 /**
  * A Population used in Evolutionary Computation.
@@ -10,9 +9,9 @@ import java.util.List;
  * also 'peek' at the Population. 
  * 
  * @author Simon Dicken
- * @version 2014-12-09
+ * @version 2015-02-22
  */
-public interface Population {
+public interface Population<T extends Individual<?>> {
 
 	/**
 	 * Method to insert the given Individual into the Population.
@@ -21,27 +20,25 @@ public interface Population {
 	 * @return true if the Individual is successfully inserted, false 
 	 * otherwise.
 	 */
-	boolean insert(Individual ind);
+	boolean insert(T ind);
 	
 	/**
 	 * Removes the Individual with the highest fitness value from the 
 	 * Population.
-	 * The Individual is discarded.
 	 * Precondition: Population is non-empty.
 	 * 
 	 * @throws EmptyPopulationException - if the Population is empty.
 	 */
-	void removeMax();
+	T removeMax();
 	
 	/**
 	 * Removes the Individual with the lowest fitness value from the 
 	 * Population.
-	 * The Individual is discarded.
 	 * Precondition: Population is non-empty.
 	 * 
 	 * @throws EmptyPopulationException - if the Population is empty.
 	 */
-	void removeMin();	
+	T removeMin();	
 	
 	/**
 	 * Removes the N Individuals with the highest fitness values from the 
@@ -74,7 +71,6 @@ public interface Population {
 	/**
 	 * Removes the Individual with nth the highest fitness value from the 
 	 * Population.
-	 * The Individual is discarded.
 	 * Precondition: Population is non-empty.
 	 * Precondition: n >= 0.
 	 * Precondition: n < size of population.
@@ -85,12 +81,11 @@ public interface Population {
 	 * @throws EmptyPopulationException - if the Population is empty.
 	 * @throws IllegalArgumentException - if n < 0.
 	 */
-	void removeNthMax(int n);
+	T removeNthMax(int n);
 	
 	/**
 	 * Removes the Individual with nth the lowest fitness value from the 
 	 * Population.
-	 * The Individual is discarded.
 	 * Precondition: Population is non-empty.
 	 * Precondition: n >= 0.
 	 * Precondition: n < size of population.
@@ -101,7 +96,7 @@ public interface Population {
 	 * @throws EmptyPopulationException - if the Population is empty.
 	 * @throws IllegalArgumentException - if n < 0.
 	 */
-	void removeNthMin(int n);
+	T removeNthMin(int n);
 	
 	/**
 	 * Obtains the Individual with the highest fitness value from the 
@@ -112,7 +107,7 @@ public interface Population {
 	 * @return the Individual with the highest fitness value.
 	 * @throws EmptyPopulationException - if the Population is empty.
 	 */
-	Individual getMax();
+	T getMax();
 	
 	/**
 	 * Obtains the Individual with the lowest fitness value from the 
@@ -123,7 +118,7 @@ public interface Population {
 	 * @return the Individual with the lowest fitness value.
 	 * @throws EmptyPopulationException - if the Population is empty.
 	 */
-	Individual getMin();	
+	T getMin();	
 	
 	/**
 	 * Obtains the Individual with the nth highest fitness value from the 
@@ -140,7 +135,7 @@ public interface Population {
 	 * @throws EmptyPopulationException - if the Population is empty.
 	 * @throws IllegalArgumentException - if n < 0.
 	 */
-	Individual getNthMax(int n);
+	T getNthMax(int n);
 	
 	/**
 	 * Obtains the Individual with the nth lowest fitness value from the 
@@ -156,15 +151,12 @@ public interface Population {
 	 * @throws EmptyPopulationException - if the Population is empty.
 	 * @throws IllegalArgumentException - if n < 0.
 	 */
-	Individual getNthMin(int n);
+	T getNthMin(int n);
 	
 	/**
-	 * Obtains the list of all Individuals of which the Population is 
-	 * comprised.
+	 * Return the number of Individuals in the Population.
 	 * 
-	 * @return the list of all Individuals of which the Population is 
-	 * comprised.
+	 * @return the number of Individuals in the Population.
 	 */
-	List<Individual> getAll();
-	
+	int size();
 }
